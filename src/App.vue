@@ -43,7 +43,7 @@
                 questions: [
                     {
                         id: 1,
-                        question : "Who is the pressident of nigeria",
+                        question : "Who is the current president of nigeria",
                         answer: "buhari",
                         options: [
                             'jonathan', 'buhari', 'obasanjo', 'adeniyi'
