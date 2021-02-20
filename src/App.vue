@@ -59,7 +59,7 @@
                     },
                     {
                         id: 2,
-                        question : "How many colors is in the Nigeria flag",
+                        question : "How many colors are there in the Nigeria flag",
                         answer: "2",
                         options: [
                             '3', '1', '2', '8'
