@@ -2,11 +2,11 @@
     <div class="quiz">
         <h1 class="logo">Quix</h1>
         <div class="box">
-            <p class="count" v-if="!submited">Question {{currentIndex + 1}} of {{questions.length}}</p>
+            <p class="count" v-if="!submited">Question {{currentIndex + 1}} of {{quest.length}}</p>
             <div class="score">
                 <h3 class="score" v-if="submited">score<span> {{score}} </span></h3>
             </div>
-            <div class="timer" v-if="time">
+            <div class="timer" v-if="time  !== null">
                 <h4>{{time}}</h4>
             </div>
             <ul v-if="!submited">
@@ -24,8 +24,8 @@
                         : 'background: 1E90FF;'"
                 >{{option}}</li>
             </ul>
-            <button @click="next" v-if="currentIndex < questions.length -1">Next</button>
-            <button @click="next" v-if="!submited && currentIndex >= questions.length -1">Submit</button>
+            <button @click="next" v-if="currentIndex < quest.length -1">Next</button>
+            <button @click="next" v-if="!submited && currentIndex >= quest.length -1">Submit</button>
             <button @click="startGame" v-if="submited" >Restart</button>
         </div>
       
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+    import Json from '@/assets/questions.json'
     export default {
         data() {
             return {
@@ -44,32 +45,41 @@
                 score: 0,
                 time: 15,
                 timer: null,
-                questions: [
-                    {
-                        id: 1,
-                        question : "Who is the current president of nigeria",
-                        answer: "buhari",
-                        options: [
-                            'jonathan', 'buhari', 'obasanjo', 'adeniyi'
-                        ]
-                    },
-                    {
-                        id: 2,
-                        question : "Nigeria is in which continent",
-                        answer: "africa",
-                        options: [
-                            'africa', 'europe', 'autralia', 'america'
-                        ]
-                    },
-                    {
-                        id: 2,
-                        question : "How many colors are there in the Nigeria flag",
-                        answer: "2",
-                        options: [
-                            '3', '1', '2', '8'
-                        ]
-                    }
-                ]
+                quest: Json.data,
+                // questions: [
+                //     {
+                //         id: 1,
+                //         question : "Who is the current president of nigeria",
+                //         answer: "buhari",
+                //         options: [
+                //             'jonathan', 'buhari', 'obasanjo', 'adeniyi'
+                //         ]
+                //     },
+                //     {
+                //         id: 2,
+                //         question : "Nigeria is in which continent",
+                //         answer: "africa",
+                //         options: [
+                //             'africa', 'europe', 'autralia', 'america'
+                //         ]
+                //     },
+                //     {
+                //         id: 3,
+                //         question : "How many colors are there in the Nigeria flag",
+                //         answer: "2",
+                //         options: [
+                //             '3', '1', '2', '8'
+                //         ]
+                //     },
+                //     {
+                //         id: 3,
+                //         question : "Abuja is the capital of which of this country?",
+                //         answer: "Nigeria",
+                //         options: [
+                //             'Brazil', 'Crotia', 'Agentina', 'Nigeria'
+                //         ]
+                //     }
+                // ]
             }
         },
 
@@ -80,7 +90,7 @@
             },
 
             getQuestion(){
-                this.currentQuestion = this.questions[this.currentIndex]
+                this.currentQuestion = this.quest[this.currentIndex]
             },
             
             startGame(){
@@ -112,7 +122,7 @@
 
             next(){
                 this.calculateScore()
-                if (this.currentIndex >= this.questions.length -1) {
+                if (this.currentIndex >= this.quest.length -1) {
                     this.submited = true
                     clearInterval(this.timer)
                     this.time = null
@@ -124,9 +134,11 @@
             },
         },
 
-        created() {
+        async created() {
             this.getQuestion()
             this.setTimer()
+            // let value = await this.quest
+            // console.log(this.quest[0].id)
         },
     }
 </script>
@@ -180,10 +192,12 @@
 
     .timer{
         padding: 15px;
+        
     }
     .timer h4{
         font-size: 1.6rem;
         font-weight: 700;
+        font-family: 'Satisfy', sans-serif;
     }
 
     h1,h2,h3,h4,h5,h6{
